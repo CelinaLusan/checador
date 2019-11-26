@@ -22,7 +22,7 @@ date_default_timezone_set("America/mexico_city");
 			<div class="alert <?=$alert?> alert-dismissible fade show" role="alert">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 				<strong><?=$title?></strong> <?=$mensaje?>.
-			</div>
+			</div> 
 		<?php
 			}
 		?>
@@ -40,7 +40,7 @@ date_default_timezone_set("America/mexico_city");
 					<label><a class="text-danger"> * </a>Elige el chofer</label>
 					<select class="form-control" name="idChofer" required>
 						<?php
-							echo '<option disabled selected>Elije un chofer</option>';
+							echo '<option disabled required>Elije un chofer</option>';
 							foreach($arrayUsuarios as $i => $idUsuario)
 							echo '<option selected value="'.$i.'">'.$idUsuario.'</option>';
 						?>
@@ -48,7 +48,7 @@ date_default_timezone_set("America/mexico_city");
 					<label><a class="text-danger"> * </a>Elige la moto</label>
 					<select class="form-control" name="idMoto" required>
 						<?php
-							echo '<option disabled selected>Elije la moto asignada</option>';
+							echo '<option disabled required>Elije la moto asignada</option>';
 							foreach($arrayMotos as $i => $idMoto)
 							echo '<option selected value="'.$i.'">'.$idMoto.'</option>';
 						?>
@@ -56,7 +56,7 @@ date_default_timezone_set("America/mexico_city");
 					<label><a class="text-danger"> * </a>Elige el cliente</label>
 					<select class="form-control" name="idCliente" required>
 						<?php
-							echo '<option disabled>Elije un cliente</option>';
+							echo '<option disabled required>Elije un cliente</option>';
 							foreach($arrayClientes as $i => $idCliente)
 							echo '<option selected value="'.$i.'">'.$idCliente.'</option>';
 						?>

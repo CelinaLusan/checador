@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed'); 
 
 class Usuario extends CI_Controller {
 	
@@ -28,6 +28,7 @@ class Usuario extends CI_Controller {
 		$datos["arrayMotos"]=$this->Motos->getMotos();
 		$datos["arrayUsuarios"]=$this->Usuarios->get_usuarioCompleto();
 		$this->load->view('agregarUsuarios',$datos);
+
 	}
 	
 	public function editarUsuario(){
@@ -71,31 +72,61 @@ class Usuario extends CI_Controller {
 	{	
 		//recuperamos la información del formulario
 		//echo $_POST['idMoto'];
-		$idRol = $this->input->post('idRol');
-		$idMoto = $this->input->post('idMoto');
-		$apellido = $this->input->post('apellido');
-		$nombre = $this->input->post('nombre');
-		$nombreUsuario = $this->input->post('nombreUsuario');
 		$password = $this->input->post('password');
-		
-		//insertamos datos del usuarrio
-		$id = $this->Usuarios->insert($nombre,$apellido,$nombreUsuario,$password,$idRol,$idMoto);
+		$passwordConfirmacion = $this->input->post('passworduno');
+		$nombreUsuario = $this->input->post('nombreUsuario');
 
-		//validación
-		$data['alert'] = 'alert-danger';
-		$data['title'] = 'Error';
-		$data['mensaje'] = 'Ocurrió un error al intentar agregar su usuario';
-		
-		if ( $id ) {
-			$data['alert'] = 'alert-success';
-			$data['title'] = 'Bien';
-			$data['mensaje'] = 'Se agrego de manera satisfactoria';	
+		//se valida que las contraseñas coincidan identicas para añadir el registro
+		if ($password !== $passwordConfirmacion ){
+			$data['alert'] = 'alert-danger';
+			$data['title'] = 'Error';
+			$data['mensaje'] = 'Las contraseñas no coinciden, intente nuevamente.';
 			$data["arrayRoles"]=$this->Roles->getRoles();
 			$data["arrayMotos"]=$this->Motos->getMotos();
+			$data["arrayUsuarios"]=$this->Usuarios->get_usuarioCompleto();
+			$this->load->view('agregarUsuarios',$data);
+
+		}else{
+
+			$existeUsuario=$this->Usuarios->verificaUsuarioExistente($nombreUsuario);
+
+			if($existeUsuario){
+				$data['alert'] = 'alert-danger';
+				$data['title'] = 'Error';
+				$data['mensaje'] = 'El nombre de usuario ya existe, intente con otro.';
+				$data["arrayRoles"]=$this->Roles->getRoles();
+				$data["arrayMotos"]=$this->Motos->getMotos();
+				$data["arrayUsuarios"]=$this->Usuarios->get_usuarioCompleto();
+				$this->load->view('agregarUsuarios',$data);
+			}else{
+
+					$idRol = $this->input->post('idRol');
+					$idMoto = $this->input->post('idMoto');
+					$apellido = $this->input->post('apellido');
+					$nombre = $this->input->post('nombre');
+					//insertamos datos del usuarrio
+					$id = $this->Usuarios->insert($nombre,$apellido,$nombreUsuario,$password,$idRol,$idMoto);
+
+					//validación
+					$data['alert'] = 'alert-danger';
+					$data['title'] = 'Error';
+					$data['mensaje'] = 'Ocurrió un error al intentar agregar su usuario';
+					
+					if ( $id ) {
+						$data['alert'] = 'alert-success';
+						$data['title'] = 'Bien';
+						$data['mensaje'] = 'Se agrego de manera satisfactoria';	
+						$data["arrayRoles"]=$this->Roles->getRoles();
+						$data["arrayMotos"]=$this->Motos->getMotos();
+					}
+					$data["arrayUsuarios"]=$this->Usuarios->get_usuarioCompleto();
+					
+					$this->load->view('agregarUsuarios',$data);
+
+			}
+					
 		}
-		$data["arrayUsuarios"]=$this->Usuarios->get_usuarioCompleto();
-		
-		$this->load->view('agregarUsuarios',$data);
+
 		
 	}
 	

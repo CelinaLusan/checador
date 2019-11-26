@@ -94,7 +94,7 @@ date_default_timezone_set("America/mexico_city");
 
 			  		foreach($arrayClientes as $i => $nombre) {
 			  			echo "<tr>
-				      		<th scope='row' id='idCliente'>".$arrayClientes[$i]->idCliente."</th>
+				      		<th scope='row' id='idCliente'>".$i."</th>
 				      		<td>".$arrayClientes[$i]->nombre."</td>
 				      		<td>".$arrayClientes[$i]->apellido."</td>
 				      		<td>".$arrayClientes[$i]->calle."</td>
@@ -233,7 +233,7 @@ $(document).ready(function(){
 							$.each(respuesta,function(index,value){
 				                	//template += "<option value='" + value['id_vehiculo'] + "'>" + value['unidad'] +"</option>";
 				                		template += "<tr>"+
-									      "<th scope='row' name='idCliente'>" +value['idCliente']+ "</th>"+
+									      "<th scope='row' name='idCliente'>" +index+ "</th>"+
 									      "<td>" +value['nombre']+ "</td>"+
 									      "<td>"+value['apellido']+"</td>"+
 											"<td>" +value['calle']+ "</td>"+

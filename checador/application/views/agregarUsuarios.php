@@ -33,7 +33,7 @@ date_default_timezone_set("America/mexico_city");
 					<label><a class="text-danger"> * </a>Elige la moto asignada</label>
 					<select class="form-control" name="idMoto" id="idMoto" required>
 						<?php
-							echo '<option disabled value="0" selected>Elije una moto</option>';
+							echo '<option disabled required>Elije una moto</option>';
 							foreach($arrayMotos as $i => $idMoto)
 							echo '<option selected value="'.$i.'">'.$idMoto.'</option>';
 						?>
@@ -54,10 +54,17 @@ date_default_timezone_set("America/mexico_city");
 					<label><a class="text-danger"> * </a>Nombre de usuario</label>
 					<input type="text" name="nombreUsuario" id="nombreUsuario" class="form-control" placeholder="Ingresa el nombre de usuario" required>
 				</div>
-				<div class="form-group">
-					<label><a class="text-danger"> * </a>Password</label>
-					<input type="password" name="password" class="form-control" placeholder="Ingresa una contraseña" required>
+				<div class="row">
+					<div class="col">
+						<label><a class="text-danger"> * </a>Contraseña</label>
+						<input type="password" name="passworduno" class="form-control" placeholder="Ingresa una contraseña" required>
+					</div>
+					<div class="col">
+						<label><a class="text-danger"> * </a>Confirmar contraseña</label>
+						<input type="password" name="password" class="form-control" placeholder="Ingresa nuevamente la contraseña" required>
+					</div>
 				</div>
+				<br>
 				<button type="submit"class="btn btn-lg btn-block btn-warning">Agregar chofer</button>
 		</form>
 	<br>	
@@ -96,7 +103,7 @@ date_default_timezone_set("America/mexico_city");
 			  		echo "<tbody id='respuestaConsulta'>";
 			  		foreach($arrayUsuarios as $i => $nombre) {
 			  			echo "<tr>
-				      		<th scope='row' id='idUsuario'>".$arrayUsuarios[$i]->idUsuario."</th>
+				      		<th scope='row' id='idUsuario'>".$i."</th>
 				      		<td>".$arrayUsuarios[$i]->idMoto."</td>
 				      		<td>".$arrayUsuarios[$i]->nombre."</td>
 				      		<td>".$arrayUsuarios[$i]->apellido."</td>
@@ -153,7 +160,7 @@ $(document).ready(function(){
 							id = $(this).data("id");
 							console.log(id);
 							e.preventDefault();
-							p = confirm("Estas seguro?");
+							p = confirm("¿Estas seguro de eliminarlo?");
 							if(p){
 								$.get("<?=base_url()?>index.php/Usuario/eliminarUsuario","id="+id,function(data){
 									window.location="<?php echo base_url()?>index.php/Usuario";
@@ -186,16 +193,25 @@ $(document).ready(function(){
 					//console.log(respuesta);
 					//console.log(respuesta.arrayGetUsuario.idMoto);
 					//console.log(respuesta.arrayMotos[0].idMoto);
-					
-							
+					//var motoAsociada=respuesta.arrayGetUsuario.idMoto;
+					var valueSelect="selected";					
 
 				                		template +='<form role="form" id="actualizar" >'+
 										'<div class="form-group">'+
 											'<label><a class="text-danger"> * </a>Elige la moto asignada</label>'+
 											'<select class="form-control" name="idMoto" id="idMoto" required>'+
-													'<option disabled value="0" selected>Elije una moto</option>';
-					for(y=0;y<respuesta.arrayMotos.length;y++){
-						template += '<option selected value="'+ respuesta.arrayMotos[y].idMoto +'">'+respuesta.arrayMotos[y].marca+'</option>';
+													'<option disabled required>Elije una moto</option>';
+					
+					for(y=0;y < respuesta.arrayMotos.length; y++){
+						//console.log(respuesta.arrayMotos.length);
+
+						if (respuesta.arrayMotos[y].idMoto == respuesta.arrayGetUsuario.idMoto){ //para seleccionar la moto que corresponde al chofer
+							valueSelect="selected";
+						}else{
+							valueSelect="";
+						}
+
+						template += '<option '+ valueSelect +' value="'+ respuesta.arrayMotos[y].idMoto +'">'+respuesta.arrayMotos[y].marca+'</option>';
 					}
 										template += '</select>'+
 										'</div>'+
@@ -218,6 +234,7 @@ $(document).ready(function(){
 				'</form>';
 					
 					$("#form-edit").html(template);
+					//var selectMoto = document.getElementById('idMoto');
 					
 		  		});
 				
@@ -239,8 +256,8 @@ $(document).ready(function(){
 							$.each(respuesta,function(index,value){
 				                	//template += "<option value='" + value['id_vehiculo'] + "'>" + value['unidad'] +"</option>";
 				                		template += "<tr>"+
-									      "<th scope='row' name='idUsuario'>" +value['idUsuario']+ "</th>"+
-									      "<td>" +value['idMoto']+ "</td>"+
+									      "<th scope='row' name='idUsuario'>" +index+ "</th>"+
+									      "<td>" +value['idMoto'] + "</td>"+
 									      "<td>"+value['nombre']+"</td>"+
 											"<td>" +value['apellido']+ "</td>"+
 									      "<td>"+value['nombreUsuario']+"</td>"+

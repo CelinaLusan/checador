@@ -80,7 +80,7 @@ date_default_timezone_set("America/mexico_city");
 
 			  		foreach($arrayMotos as $i => $nombre) {
 					  	echo "<tr>
-						      		<th scope='row' name='idMoto'>".$arrayMotos[$i]->idMoto."</th>
+						      		<th scope='row' name='idMoto'>".$i."</th>
 						      		<td>".$arrayMotos[$i]->marca."</td>
 						      		<td>".$arrayMotos[$i]->placas."</td>";
 				?>
@@ -184,7 +184,7 @@ $(document).ready(function(){
 
 
 				                		template += "<tr>"+
-									      "<th scope='row' name='idMoto'>" +value['idMoto']+ "</th>"+
+									      "<th scope='row' name='idMoto'>" +index+ "</th>"+
 									      "<td>" +value['marca']+ "</td>"+
 									      "<td>"+value['placas']+"</td>"+
 

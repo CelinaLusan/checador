@@ -27,7 +27,7 @@ class Salidas extends CI_Model {
 	}
 	 
 	
-	public function getRegistrosUsuarios($idUsuario){
+	public function getRegistrosUsuarios($idUsuario){ 
 
 		$consulta =  $this->db->select('usuarios.*,registros.*');
 		$consulta =  $this->db->from('usuarios');

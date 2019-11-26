@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Llegada extends CI_Controller {
+class Llegada extends CI_Controller { 
 	
 	public $registros_model;
 	public $data;

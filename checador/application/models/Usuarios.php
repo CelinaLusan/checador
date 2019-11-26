@@ -1,4 +1,4 @@
-<?php
+<?php 
 class Usuarios extends CI_Model { 
    
     public function insert($nombre,$apellido,$nombreUsuario,$password,$idRol,$idMoto){
@@ -15,7 +15,7 @@ class Usuarios extends CI_Model {
         $id = $this->db->insert('usuarios', $data);
         return $id;
     }
-	
+
 	public function get_usuario(){
 		
 		$consulta = $this->db->query('select * from usuarios where idRol=2');
@@ -45,7 +45,18 @@ class Usuarios extends CI_Model {
 		    $this->db->where('idUsuario', $data);
 		    $consulta = $this->db->get('usuarios');
 		    return $consulta->row();
+	}
+
+	public function verificaUsuarioExistente($nombreUsuario){
+		$consulta=$this->db->select('idUsuario,nombreUsuario');
+		$consulta=$this->db->where('nombreUsuario',$nombreUsuario);
+		$consulta = $this->db->get('usuarios');
+
+		if($consulta->num_rows()>0){	
+			return $consulta->result();
 		}
+
+	}
 		
 	public function editarUsuarios($idUser,$nombre,$apellido,$nombreUsuario,$idMoto){
 		
@@ -67,12 +78,12 @@ class Usuarios extends CI_Model {
 			//$this->db->where('idMoto',$idMoto);
             //return $this->db->update('motos', $dato);
 
-		}
+	}
 		
 		public function busqueda($palabra){ 
 
 			//$consulta = $this->db->query("select * from usuarios where nombre like '%". $palabra. "%' or apellido like '%".$palabra."%' or nombreUsuario like '%". $palabra. "% or idMoto like'%". $palabra."%'");
-		$consulta = $this->db->query("select * from usuarios where nombre like '%". $palabra. "%' or nombreUsuario like '%".$palabra."%' ");
+			$consulta = $this->db->query("select * from usuarios where nombre like '%". $palabra. "%' or nombreUsuario like '%".$palabra."%' ");
 
 			if($consulta->num_rows()>0){
 				return $consulta->result();

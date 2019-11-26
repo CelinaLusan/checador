@@ -11,7 +11,7 @@ date_default_timezone_set("America/mexico_city");
 
 	<title>Checador</title>    
 </head>
-<body>
+<body> 
 
 	
 
